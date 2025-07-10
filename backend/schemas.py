@@ -26,6 +26,7 @@ class BranchBase(BaseModel):
     ntn: str = Field(..., min_length=7, max_length=7)  # NTN number
     strn: str = Field(..., min_length=7, max_length=7)  # STRN number
     fbr_branch_code: str = Field(..., max_length=20)
+    sale_type_code: str = Field(..., max_length=20)  # e.g. 'T1000017'
 
 class BranchCreate(BranchBase):
     pass
@@ -78,7 +79,7 @@ class Category(CategoryBase):
 # Tax Rate schemas
 class TaxRateBase(BaseModel):
     name: str = Field(..., max_length=100)
-    rate: Decimal = Field(..., decimal_places=2)
+    rate: Decimal = Field(...)
     code: Optional[str] = Field(None, max_length=20)  # FBR SRO Schedule code
 
 class TaxRateCreate(TaxRateBase):
@@ -95,7 +96,7 @@ class ProductBase(BaseModel):
     code: str = Field(..., max_length=50)
     name: str = Field(..., max_length=150)
     category_id: Optional[int] = None
-    price: Decimal = Field(..., decimal_places=2)
+    price: Decimal = Field(...)
     tax_id: Optional[int] = None
     hs_code: Optional[str] = Field(None, max_length=20)  # FBR Harmonized System Code
 
@@ -106,7 +107,7 @@ class ProductUpdate(BaseModel):
     code: Optional[str] = Field(None, max_length=50)
     name: Optional[str] = Field(None, max_length=150)
     category_id: Optional[int] = None
-    price: Optional[Decimal] = Field(None, decimal_places=2)
+    price: Optional[Decimal] = Field(None)
     tax_id: Optional[int] = None
     hs_code: Optional[str] = Field(None, max_length=20)
 
@@ -169,17 +170,17 @@ class Customer(CustomerBase):
 class SaleItemBase(BaseModel):
     product_id: int
     hs_code: Optional[str] = Field(None, max_length=20)
-    quantity: Decimal = Field(..., decimal_places=2)
-    unit_price: Decimal = Field(..., decimal_places=2)
-    value_excl_tax: Decimal = Field(..., decimal_places=2)
-    sales_tax: Decimal = Field(..., decimal_places=2)
-    further_tax: Decimal = Field(0, decimal_places=2)
-    c_v_t: Decimal = Field(0, decimal_places=2)  # CVT - Capital Value Tax
-    w_h_tax_1: Decimal = Field(0, decimal_places=2)  # Withholding Tax 1
-    w_h_tax_2: Decimal = Field(0, decimal_places=2)  # Withholding Tax 2
-    discount: Decimal = Field(0, decimal_places=2)
+    quantity: Decimal = Field(...)
+    unit_price: Decimal = Field(...)
+    value_excl_tax: Decimal = Field(...)
+    sales_tax: Decimal = Field(...)
+    further_tax: Decimal = Field(0)
+    c_v_t: Decimal = Field(0)  # CVT - Capital Value Tax
+    w_h_tax_1: Decimal = Field(0)  # Withholding Tax 1
+    w_h_tax_2: Decimal = Field(0)  # Withholding Tax 2
+    discount: Decimal = Field(0)
     sro_item_serial_no: Optional[str] = Field(None, max_length=10)
-    line_total: Decimal = Field(..., decimal_places=2)
+    line_total: Decimal = Field(...)
 
 class SaleItemCreate(SaleItemBase):
     pass
@@ -195,7 +196,7 @@ class SaleItem(SaleItemBase):
 # Payment schemas
 class PaymentBase(BaseModel):
     method: str = Field(..., max_length=30)  # e.g., 'Cash', 'Card'
-    amount: Decimal = Field(..., decimal_places=2)
+    amount: Decimal = Field(...)
     details: Optional[Dict[str, Any]] = None  # additional info (card type, transaction ID)
 
 class PaymentCreate(PaymentBase):
@@ -220,11 +221,11 @@ class SaleBase(BaseModel):
     seller_strn: str = Field(..., min_length=7, max_length=7)
     buyer_ntn: Optional[str] = Field(None, max_length=9)
     buyer_name: Optional[str] = Field(None, max_length=150)
-    total_qty: Decimal = Field(..., decimal_places=2)
-    total_sales_value: Decimal = Field(..., decimal_places=2)
-    total_tax: Decimal = Field(..., decimal_places=2)
-    total_discount: Decimal = Field(0, decimal_places=2)
-    total_amount: Decimal = Field(..., decimal_places=2)
+    total_qty: Decimal = Field(...)
+    total_sales_value: Decimal = Field(...)
+    total_tax: Decimal = Field(...)
+    total_discount: Decimal = Field(0)
+    total_amount: Decimal = Field(...)
     usin: str = Field(..., max_length=50)  # Unique Sale Invoice Number
 
 class SaleCreate(SaleBase):

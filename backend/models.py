@@ -29,6 +29,7 @@ class Branch(Base):
     ntn = Column(String(7), nullable=False)  # NTN number
     strn = Column(String(7), nullable=False)  # STRN number
     fbr_branch_code = Column(String(20), unique=True, nullable=False)
+    sale_type_code = Column(String(20), nullable=False)  # e.g. 'T1000017'
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     # Relationships

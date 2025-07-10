@@ -137,6 +137,7 @@ export interface Branch {
   ntn: string;
   strn: string;
   fbr_branch_code: string;
+  sale_type_code: string;
   created_at: string;
 }
 

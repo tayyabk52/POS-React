@@ -20,7 +20,7 @@ from schemas import Sale, SaleCreate, SaleSummary, FBRInvoicePayload, FBRRespons
 
 router = APIRouter()
 
-@router.get("/", response_model=List[SaleSummary])
+@router.get("/", response_model=List[Sale])
 def get_sales(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
@@ -49,20 +49,7 @@ def get_sales(
         query = query.filter(SaleModel.fbr_status == fbr_status)
     
     sales = query.order_by(SaleModel.created_at.desc()).offset(skip).limit(limit).all()
-    
-    result = []
-    for sale in sales:
-        item_count = db.query(SaleItemModel).filter(SaleItemModel.sale_id == sale.id).count()
-        result.append(SaleSummary(
-            id=sale.id,
-            invoice_no=sale.invoice_no,
-            total_amount=sale.total_amount,
-            fbr_status=sale.fbr_status,
-            created_at=sale.created_at,
-            item_count=item_count
-        ))
-    
-    return result
+    return sales
 
 @router.get("/{sale_id}", response_model=Sale)
 def get_sale(sale_id: int, db: Session = Depends(get_db)):

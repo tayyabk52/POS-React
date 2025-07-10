@@ -17,7 +17,8 @@ const Branches: React.FC = () => {
     province: '',
     ntn: '',
     strn: '',
-    fbr_branch_code: ''
+    fbr_branch_code: '',
+    sale_type_code: ''
   });
 
   useEffect(() => {
@@ -47,7 +48,8 @@ const Branches: React.FC = () => {
       province: '',
       ntn: '',
       strn: '',
-      fbr_branch_code: ''
+      fbr_branch_code: '',
+      sale_type_code: ''
     });
     setShowModal(true);
   };
@@ -61,7 +63,8 @@ const Branches: React.FC = () => {
       province: branch.province || '',
       ntn: branch.ntn,
       strn: branch.strn,
-      fbr_branch_code: branch.fbr_branch_code
+      fbr_branch_code: branch.fbr_branch_code,
+      sale_type_code: branch.sale_type_code || ''
     });
     setShowModal(true);
   };
@@ -88,7 +91,8 @@ const Branches: React.FC = () => {
         province: formData.province || undefined,
         ntn: formData.ntn,
         strn: formData.strn,
-        fbr_branch_code: formData.fbr_branch_code
+        fbr_branch_code: formData.fbr_branch_code,
+        sale_type_code: formData.sale_type_code || 'T1000017',
       };
 
       if (editingBranch) {
@@ -345,6 +349,20 @@ const Branches: React.FC = () => {
               value={formData.fbr_branch_code}
               onChange={(e) => setFormData({ ...formData, fbr_branch_code: e.target.value })}
               placeholder="FBR branch registration code"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Sale Type Code *
+            </label>
+            <input
+              type="text"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              value={formData.sale_type_code || ''}
+              onChange={(e) => setFormData({ ...formData, sale_type_code: e.target.value })}
+              placeholder="e.g. T1000017"
             />
           </div>
 
